@@ -1,0 +1,31 @@
+FROM python:3.10.9-slim-bullseye as builder
+
+ENV PYTHONUNBUFFERED=1 \
+    PYTHONDONTWRITEBYTECODE=1 \
+    PIP_NO_CACHE_DIR=off \
+    PIP_DISABLE_PIP_VERSION_CHECK=on \
+    PIP_DEFAULT_TIMEOUT=100 \
+    POETRY_VERSION=1.3.1 \
+    POETRY_HOME="/opt/poetry" \
+    POETRY_VIRTUALENVS_IN_PROJECT=true \
+    POETRY_NO_INTERACTION=1 \
+    PYSETUP_PATH="/opt/pysetup" \
+    VENV_PATH="/opt/pysetup/.venv"
+
+ENV PATH="$POETRY_HOME/bin:$VENV_PATH/bin:$PATH"
+
+WORKDIR $PYSETUP_PATH
+COPY poetry.lock pyproject.toml ./
+RUN apt-get update && \
+    apt-get install --no-install-recommends -y git curl build-essential gcc g++ libpq-dev && \
+    curl -sSL https://install.python-poetry.org | python && \
+    poetry install
+
+# `production` image used for runtime
+FROM builder as runner
+
+COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
+WORKDIR /usr/code
+RUN addgroup --system user && adduser --system --no-create-home --group user && \
+    chown -R user:user /usr/code && chmod -R 755 /usr/code
+COPY ./src /usr/code/src

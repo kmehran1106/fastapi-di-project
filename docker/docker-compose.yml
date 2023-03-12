@@ -1,0 +1,56 @@
+version: '3'
+
+x-common-variables: &common-variables
+  DEBUG: 1
+  ENVIRONMENT: DEVELOPMENT
+
+services:
+  api:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    container_name: fastdi-api
+    volumes:
+      - ../src/:/usr/code/src/
+    environment: *common-variables
+    ports:
+      - 8800:8000
+    command: >
+      bash -c "
+        uvicorn src.api:configure_api --reload --host 0.0.0.0 --port 8000
+      "
+    depends_on:
+      - db
+
+  db:
+    image: postgres:15.2-alpine
+    container_name: fastdi-db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_USER=fastdi
+      - POSTGRES_PASSWORD=fastdi
+      - POSTGRES_DB=fastdi
+    ports:
+      - 8832:5432
+
+  tests:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    container_name: fastdi-tests
+    volumes:
+      - ../src/:/usr/code/src/
+      - ../tests/:/usr/code/tests/
+    environment: *common-variables
+    command: >
+      bash -c "
+        pytest tests -x -s -v
+      "
+    depends_on:
+      - db
+
+volumes:
+  postgres_data: {}

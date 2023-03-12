@@ -1,0 +1,46 @@
+[tool.poetry]
+name = "fast-di"
+version = "0.1.0"
+description = ""
+authors = ["Mehran Kader <kmehran.1106@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+fastapi = {extras = ["all"], version = "^0.94.0"}
+sqlalchemy = "^2.0.5.post1"
+gunicorn = "^20.1.0"
+pymongo = "^4.3.3"
+alembic = "^1.10.2"
+
+
+[tool.poetry.group.dev.dependencies]
+pre-commit = "^3.1.1"
+black = "^23.1.0"
+flake8 = "^6.0.0"
+pytest = "^7.2.2"
+isort = "^5.12.0"
+autoflake = "^2.0.2"
+pytest-asyncio = "^0.20.3"
+mypy = "^1.1.1"
+
+[tool.mypy]
+plugins = ["pydantic.mypy"]
+
+follow_imports = "silent"
+warn_redundant_casts = true
+warn_unused_ignores = true
+disallow_any_generics = true
+check_untyped_defs = true
+no_implicit_reexport = true
+disallow_untyped_defs = true
+
+[tool.pydantic-mypy]
+init_forbid_extra = true
+init_typed = true
+warn_required_dynamic_aliases = true
+warn_untyped_fields = true
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
