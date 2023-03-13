@@ -15,7 +15,7 @@ client = TestClient(api)
 
 
 def get_settings_override() -> Settings:
-    return Settings(app_name="Testing!")
+    return Settings(app_title="Testing!")
 
 
 api.dependency_overrides[get_settings] = get_settings_override

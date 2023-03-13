@@ -18,7 +18,7 @@ services:
       - 8800:8000
     command: >
       bash -c "
-        uvicorn src.api:configure_api --reload --host 0.0.0.0 --port 8000
+        uvicorn src.api:api --reload --host 0.0.0.0 --port 8000
       "
     depends_on:
       - db
@@ -47,7 +47,7 @@ services:
     environment: *common-variables
     command: >
       bash -c "
-        pytest tests -x -s -v
+        pytest tests -x -s -vv
       "
     depends_on:
       - db

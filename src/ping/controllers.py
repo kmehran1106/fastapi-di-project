@@ -1,11 +1,18 @@
 from fastapi import APIRouter, Depends
 
-from src.ping.dtos import CheckHealthDto
+from src.common.enums import ErrorCode
+from src.common.exceptions import ApiException
+from src.ping.dtos import CheckHealthResponse, HealthDto
 from src.ping.services import check_health
 
 router = APIRouter()
 
 
-@router.get("/", response_model=CheckHealthDto)
-async def check_health_api(check_health: CheckHealthDto = Depends(check_health)) -> CheckHealthDto:
-    return check_health
+@router.get("/")
+async def check_health_api(
+    fail: int = 0,
+    check_health: HealthDto = Depends(check_health),
+) -> CheckHealthResponse:
+    if fail != 0:
+        raise ApiException(status_code=400, error_code=ErrorCode.INVALID.value, detail="You shall not pass!")
+    return CheckHealthResponse(data=check_health, status_code=200)

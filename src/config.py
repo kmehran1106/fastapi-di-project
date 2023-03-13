@@ -4,7 +4,8 @@ from pydantic import BaseSettings
 
 
 class Settings(BaseSettings):
-    app_name: str = "FastAPI DI"
+    app_title: str = "FastAPI DI"
+    app_description: str = "Trying out Dependency Injection with FastAPI!"
 
 
 @lru_cache()
