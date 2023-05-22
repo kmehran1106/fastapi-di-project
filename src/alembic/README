@@ -1,0 +1,10 @@
+# Generate Alembic Migrations
+1. Go to the folder docker/
+2. Run the command
+    * ` docker-compose run --rm migrations alembic revision --autogenerate -m "migration message here"`
+3. Run the command
+
+# Running Alembic Migrations
+1. Go to the folder docker/
+2. Run the command
+    * `docker-compose run --rm migrations alembic upgrade head`

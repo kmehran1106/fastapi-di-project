@@ -1,5 +1,6 @@
-from fastapi import HTTPException
 from datetime import datetime
+
+from fastapi import HTTPException
 
 
 class ApiException(HTTPException):
@@ -7,5 +8,3 @@ class ApiException(HTTPException):
         super().__init__(status_code=status_code, detail=detail)
         self.error_code = error_code
         self.timestamp = datetime.utcnow().isoformat()
-
-

@@ -52,5 +52,20 @@ services:
     depends_on:
       - db
 
+  migrations:
+    platform: linux/amd64
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile
+    container_name: fastdi-migrations
+    volumes:
+      - ../src/:/usr/code/src/
+    environment: *common-variables
+    ports:
+      - 8800:8000
+    working_dir: /usr/code/src
+    depends_on:
+      - db
+
 volumes:
   postgres_data: {}

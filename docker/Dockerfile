@@ -28,4 +28,5 @@ COPY --from=builder $PYSETUP_PATH $PYSETUP_PATH
 WORKDIR /usr/code
 RUN addgroup --system user && adduser --system --no-create-home --group user && \
     chown -R user:user /usr/code && chmod -R 755 /usr/code
+
 COPY ./src /usr/code/src
