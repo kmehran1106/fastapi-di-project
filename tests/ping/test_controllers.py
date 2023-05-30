@@ -1,11 +1,11 @@
 from fastapi.encoders import jsonable_encoder
+from fastapi.testclient import TestClient
 
 from src.common.enums import ErrorCode
 from src.ping.dtos import CheckHealthResponse, HealthDto
-from tests.conftest import client
 
 
-def test_check_health_success() -> None:
+def test_check_health_success(client: TestClient) -> None:
     # Given
 
     # When
@@ -19,7 +19,7 @@ def test_check_health_success() -> None:
     assert result == expected
 
 
-def test_check_health_failure() -> None:
+def test_check_health_failure(client: TestClient) -> None:
     # Given
 
     # When

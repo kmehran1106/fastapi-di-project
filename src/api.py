@@ -4,6 +4,7 @@ from fastapi.responses import JSONResponse
 from src.common.exceptions import ApiException
 from src.config import get_settings
 from src.ping.controllers import router as ping_router
+from src.users.controllers import router as user_router
 
 
 async def api_exception_handler(req: Request, exc: ApiException) -> JSONResponse:
@@ -27,6 +28,7 @@ def configure_api() -> FastAPI:
     )
 
     api.include_router(ping_router, prefix="/ping")
+    api.include_router(user_router, prefix="/users")
 
     return api
 

@@ -53,5 +53,6 @@ repos:
       - id: mypy
         args:
           - "--ignore-missing-imports"
+          - --show-error-codes
         additional_dependencies:
           - 'pydantic'
