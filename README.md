@@ -1,1 +1,1 @@
-1. `docker compose up --build tests`
+1. `docker compose up --build fastapi-di-tests`

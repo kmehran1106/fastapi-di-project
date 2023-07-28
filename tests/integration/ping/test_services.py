@@ -4,7 +4,7 @@ import pytest
 
 from src.config import Settings, get_settings
 from src.ping.services import check_health
-from tests.conftest import api
+from tests.unit.conftest import api
 
 
 @pytest.mark.asyncio

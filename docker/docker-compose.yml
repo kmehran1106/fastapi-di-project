@@ -5,7 +5,7 @@ x-common-variables: &common-variables
   ENVIRONMENT: DEVELOPMENT
 
 services:
-  api:
+  fastapi-di-api:
     platform: linux/amd64
     build:
       context: ../
@@ -21,21 +21,21 @@ services:
         uvicorn src.api:api --reload --host 0.0.0.0 --port 8000
       "
     depends_on:
-      - db
+      - fastapi-di-db
 
-  db:
+  fastapi-di-db:
     image: postgres:15.2-alpine
     container_name: fastdi-db
     volumes:
       - postgres_data:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=fastdi
-      - POSTGRES_PASSWORD=fastdi
-      - POSTGRES_DB=fastdi
+      - POSTGRES_USER=user
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=db
     ports:
       - 8832:5432
 
-  tests:
+  fastapi-di-tests:
     platform: linux/amd64
     build:
       context: ../
@@ -50,9 +50,9 @@ services:
         pytest tests -x -s -vv
       "
     depends_on:
-      - db
+      - fastapi-di-db
 
-  migrations:
+  fastapi-di-migrations:
     platform: linux/amd64
     build:
       context: ../
@@ -65,7 +65,7 @@ services:
       - 8800:8000
     working_dir: /usr/code/src
     depends_on:
-      - db
+      - fastapi-di-db
 
 volumes:
   postgres_data: {}
